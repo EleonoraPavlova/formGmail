@@ -4,24 +4,13 @@
 			<div class="card p-4 width mb-4">
 				<h3 class="mb-0 text-start">Form gmail</h3>
 				<hr class="mt-1 mb-4" />
-				<div class="text-start mb-3">
-					<label for="inputEmail"><strong>Email</strong></label>
-					<AppInput
-						v-model.trim="inputValueMail"
-						type="email"
-						id="inputEmail"
-					/>
-				</div>
-				<div class="text-start mb-3">
-					<label for="inputPassword"><strong>Password</strong> </label>
-					<AppInput
-						v-model.trim="inputValuePass"
-						type="password"
-						id="inputPassword"
-					/>
-				</div>
+				<InputLogin />
 				<div class="d-flex justify-content-start align-items-center">
-					<AppButtons color="success" size="sm" class="rounded-pill"
+					<AppButtons
+						color="success"
+						size="sm"
+						class="rounded-pill"
+						type="submit"
 						>Sign In</AppButtons
 					>
 					<AppButtons color="danger" size="sm" class="rounded-pill"
@@ -35,20 +24,18 @@
 
 <script>
 import AppButtons from "../common/AppButtons.vue";
-import AppInput from "../common/AppInput.vue";
+import InputLogin from "../components/InputLogin.vue";
 
 export default {
-	name: "HomeView",
+	name: "FormView",
 	components: {
 		AppButtons,
-		AppInput,
+		InputLogin,
 	},
 	data() {
-		return {
-			inputValueMail: "",
-			inputValuePass: "",
-		};
+		return {};
 	},
+	methods: {},
 };
 </script>
 
