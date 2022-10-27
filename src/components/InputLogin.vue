@@ -36,9 +36,15 @@
 			<AppButtons color="success" size="sm" class="rounded-pill" type="submit"
 				>Sign In</AppButtons
 			>
-			<AppButtons color="danger" size="sm" class="rounded-pill"
-				>Forgot password?</AppButtons
-			>
+			<router-link to="/forget" v-slot="{ navigate }">
+				<AppButtons
+					color="danger"
+					size="sm"
+					class="rounded-pill"
+					@click="navigate"
+					>Forgot password?</AppButtons
+				>
+			</router-link>
 		</div>
 	</Form>
 </template>
@@ -72,13 +78,24 @@ export default {
 			});
 		},
 	},
+	inject: ["login"],
 	methods: {
 		onSubmit(values) {
-			console.log(JSON.stringify(values, null, 2));
+			// выводит логин пароль в консоль в формате строки
+			// console.log(JSON.stringify(values, null, 2));
+			// this.$router.push("/dashboard"); //это если без inject
+			this.login();
 		},
 	},
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+a {
+	text-decoration: none;
+	color: white;
+	&:hover {
+		color: white;
+	}
+}
 </style>
