@@ -4,14 +4,12 @@ import AboutView from '../views/AboutView.vue'
 import ForgetView from '../views/ForgetView.vue'
 import MainView from '../views/MainView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import MailView from '../views/MailView.vue'
+
 
 
 const routes = [
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: DashboardView
-  },
+
   {
     path: '/',
     name: 'main',
@@ -35,7 +33,17 @@ const routes = [
     path: '/forget',
     name: 'forget',
     component: ForgetView
-  }
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: DashboardView
+  },
+  {
+    path: '/mail',
+    name: 'mail',
+    component: MailView
+  },
 ]
 
 const router = createRouter({

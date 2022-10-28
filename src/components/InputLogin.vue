@@ -80,7 +80,7 @@ export default {
 	},
 	inject: ["login"],
 	methods: {
-		onSubmit(values) {
+		onSubmit() {
 			// выводит логин пароль в консоль в формате строки
 			// console.log(JSON.stringify(values, null, 2));
 			// this.$router.push("/dashboard"); //это если без inject

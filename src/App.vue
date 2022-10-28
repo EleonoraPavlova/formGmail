@@ -1,22 +1,34 @@
 <template>
-	<nav>
+	<nav v-if="!isAuth" class="position-reletive center-margin">
 		<router-link to="/">Main</router-link> |
 		<router-link to="/form">Form</router-link> |
-		<router-link to="/about">About</router-link> |
-		<router-link to="/forget">Forget</router-link>
+		<router-link to="/about">About</router-link>
 	</nav>
+	<NavBar v-else class="m-3" @logout="logout" />
+	<SentModal v-if="modal" @close="modal = false"
+		>You are logged out of your account</SentModal
+	>
 	<router-view />
 </template>
 
 
 <script>
+import NavBar from "./common/NavBar.vue";
+import SentModal from "./components/SentModal.vue";
+import { computed } from "vue";
+
 export default {
+	components: {
+		NavBar,
+		SentModal,
+	},
 	data() {
 		return {
-			isVisible: false,
+			modal: false,
 			isAuth: false, //пользователь без авторизации
 		};
 	},
+
 	methods: {
 		login() {
 			//пользователь авторизовался
@@ -26,7 +38,8 @@ export default {
 		},
 		logout() {
 			this.isAuth = false;
-			this.$router.push("/form");
+			this.$router.push("/");
+			this.modal = true;
 		},
 	},
 	provide() {
@@ -34,6 +47,7 @@ export default {
 		return {
 			login: this.login,
 			logout: this.logout,
+			isAuth: computed(() => this.isAuth),
 		};
 	},
 };
@@ -41,24 +55,23 @@ export default {
 
 
 <style lang="scss">
-#app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
-}
-
 nav {
 	padding: 30px;
 
 	a {
 		font-weight: bold;
 		color: #2c3e50;
-
+		text-decoration: none;
 		&.router-link-exact-active {
 			color: #42b983;
 		}
+		&:hover {
+			color: #000;
+		}
 	}
+}
+.center-margin {
+	margin-right: 31%;
+	margin-left: 35%;
 }
 </style>
