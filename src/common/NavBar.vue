@@ -17,7 +17,7 @@
 				color="warning"
 				size="md"
 				class="rounded-pill text-white"
-				@click="OutLog"
+				@click.prevent="OutLog"
 				>Go out</AppButtons
 			>
 		</div>
