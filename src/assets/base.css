@@ -56,7 +56,9 @@ li {
 .dangerous {
   color: red;
 }
-
+.yellow {
+  color: gold;
+}
 .grey {
   background-color: grey;
 }

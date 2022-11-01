@@ -1,5 +1,5 @@
 <template>
-	<i :class="[size, 'mdi', `mdi-${name}`]" :style="{ color: color }" />
+	<i :class="[size, 'mdi', `mdi-${name}`, color]" />
 </template>
 
 <script>

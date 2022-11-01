@@ -1,19 +1,44 @@
 <template>
-	<div class="container">
+	<div class="container mt-5 mb-4">
 		<div class="form-control p-4 position-relative">
-			<AppIcon class="position-absolute top-0 end-0" />
+			<h4 class="text-start ps-3 mb-3 margin-left">
+				<strong>All letters</strong>
+			</h4>
+
 			<div
-				v-for="list in lists"
-				:key="list"
-				class="d-flex justify-content-between align-items-center"
+				v-for="(letter, index) in letters"
+				:key="index"
+				class="mail-box mb-2"
+				@click="selectLetter(index)"
 			>
-				<div class="title-left p-2">
-					<h6 class="mb-0">{{ list.title }}</h6>
+				<div class="form-control text-start d-flex align-items-center">
+					<AppIcon
+						class="position-absolute top-0 end-0"
+						name="bookmark-outline"
+						size="sm"
+						:color="index === selectedLetterIndex ? 'success' : null"
+					/>
+					<div class="p-2">
+						<h6 class="mb-0">{{ letter.title }}</h6>
+					</div>
 				</div>
-				<hr class="vl" />
-				<!-- <div class="descriptions-right p-2">
-					<p>{{ list.descriptions }}</p>
-				</div> -->
+				<div class="descriptions-right p-2">
+					<!-- 	v-if="this.selectedLetterIndex !== index" иконка закрыть конкретного письма, остальные в цикле не выводятся -->
+					<AppIcon
+						v-if="this.selectedLetterIndex === index"
+						class="position-absolute top-0 end-0 icon-hover"
+						@click="closeLetter"
+					/>
+					<div v-if="index === selectedLetterIndex">
+						<h4>{{ letter.title }}</h4>
+						<p>
+							{{ letter.descriptions }}
+						</p>
+						<div v-if="isVisible" class="alert alert-warning" role="alert">
+							<h6>Choose letter</h6>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -28,13 +53,15 @@ export default {
 	},
 	data() {
 		return {
-			lists: [
+			selectedLetterIndex: null, //переменная, куда ложим выбранный индекс индекс
+			isVisible: false,
+			letters: [
 				{
 					title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
 					descriptions:
 						"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo,\
 						exercitationem? Corrupti ab modi vero sequi consequatur cumqu\
-						expedita ducimus quidem dolor!/",
+						expedita ducimus quidem dolor!",
 				},
 				{
 					title: "Donec vitae tincidunt nisi",
@@ -80,12 +107,34 @@ export default {
 			],
 		};
 	},
+	methods: {
+		closeLetter() {
+			this.selectedLetterIndex = null;
+			this.isVisible = !this.isVisible;
+		},
+		selectLetter(index) {
+			if (this.selectedLetterIndex != index) {
+				this.selectedLetterIndex = index;
+			} else {
+				this.selectedLetterIndex = null;
+			}
+		},
+	},
 };
 </script>
 
-<style>
-.vl {
-	border-left: 1px solid #212529;
-	height: 100px;
+<style lang="scss" scoped>
+.mail-box {
+	display: grid !important;
+	grid-template-columns: 32% 66%;
+	gap: 20px;
+}
+.margin-left {
+	margin-left: 7%;
+}
+.icon-hover {
+	&:hover {
+		color: red;
+	}
 }
 </style>

@@ -42,5 +42,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.router-link-active {
+	h6 {
+		color: green !important;
+	}
+}
 </style>
