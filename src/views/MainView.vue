@@ -9,11 +9,11 @@
 					color="danger"
 					size="sm"
 					class=""
-					@click="$router.push('/form')"
-					>Sing in</AppButtons
+					@click="$router.push({ path: '/form', query: { page: $route.path } })"
+					>Sign in</AppButtons
 				>
 			</div>
-			<div class="">
+			<div>
 				<h1 class="mb-4">Welcome to main page</h1>
 			</div>
 			<p>

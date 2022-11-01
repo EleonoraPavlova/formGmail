@@ -29,6 +29,7 @@
 					/>
 					<div v-if="index === selectedLetterIndex">
 						<h4>{{ letter.title }}</h4>
+						<hr class="width" />
 						<p>
 							{{ letter.descriptions }}
 						</p>
@@ -140,5 +141,9 @@ export default {
 	&:hover {
 		color: red;
 	}
+}
+.width {
+	margin-left: 12%;
+	margin-right: 12%;
 }
 </style>
