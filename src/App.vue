@@ -16,6 +16,7 @@
 import NavBar from "./common/NavBar.vue";
 import SentModal from "./components/SentModal.vue";
 import { computed } from "vue";
+import { boolean } from "yup/lib/locale";
 
 export default {
 	components: {
@@ -23,9 +24,11 @@ export default {
 		SentModal,
 	},
 	data() {
+		const isAuthenticated = localStorage.getItem("authorization");
+		//из локалстор значение
 		return {
 			modal: false,
-			isAuth: false, //пользователь без авторизации
+			isAuth: isAuthenticated, //пользователь без авторизации
 		};
 	},
 
@@ -35,11 +38,15 @@ export default {
 			this.isAuth = true;
 			//редирект на страницу залогин пользователя
 			this.$router.push("/dashboard");
+			localStorage.setItem("authorization", this.isAuth);
+			//записываем локалстор
 		},
 		logout() {
 			this.isAuth = false;
 			this.$router.push("/");
 			this.modal = true;
+			localStorage.removeItem("authorization");
+			//удалить
 		},
 	},
 	provide() {

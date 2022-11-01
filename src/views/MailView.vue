@@ -14,18 +14,16 @@
 				<div class="form-control text-start d-flex align-items-center">
 					<AppIcon
 						class="position-absolute top-0 end-0"
-						name="bookmark-outline"
+						name="bookmark"
 						size="sm"
 						:color="index === selectedLetterIndex ? 'success' : null"
 					/>
-					<div class="p-2">
-						<h6 class="mb-0">{{ letter.title }}</h6>
-					</div>
+					<h6 class="mb-0 p-3">{{ letter.title }}</h6>
 				</div>
 				<div class="descriptions-right p-2">
 					<!-- 	v-if="this.selectedLetterIndex !== index" иконка закрыть конкретного письма, остальные в цикле не выводятся -->
 					<AppIcon
-						v-if="this.selectedLetterIndex === index"
+						v-if="selectedLetterIndex === index || isVisible"
 						class="position-absolute top-0 end-0 icon-hover"
 						@click="closeLetter"
 					/>
@@ -34,9 +32,15 @@
 						<p>
 							{{ letter.descriptions }}
 						</p>
-						<div v-if="isVisible" class="alert alert-warning" role="alert">
-							<h6>Choose letter</h6>
-						</div>
+					</div>
+					<div
+						v-if="
+							!selectedLetterIndex && selectedLetterIndex !== 0 && index === 0
+						"
+						class="alert alert-warning"
+						role="alert"
+					>
+						<h6>There is nothing, choose letter</h6>
 					</div>
 				</div>
 			</div>
@@ -53,7 +57,7 @@ export default {
 	},
 	data() {
 		return {
-			selectedLetterIndex: null, //переменная, куда ложим выбранный индекс индекс
+			selectedLetterIndex: 0, //переменная, куда ложим выбранный индекс индекс, 0 по дефолту( 1 письмо первое)
 			isVisible: false,
 			letters: [
 				{
@@ -126,7 +130,7 @@ export default {
 <style lang="scss" scoped>
 .mail-box {
 	display: grid !important;
-	grid-template-columns: 32% 66%;
+	grid-template-columns: 1fr 2fr;
 	gap: 20px;
 }
 .margin-left {
