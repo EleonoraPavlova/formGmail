@@ -40,7 +40,7 @@ const routes = [
     component: DashboardView
   },
   {
-    path: '/mail',
+    path: '/mail/:mailId?',
     name: 'mail',
     component: MailView
   },

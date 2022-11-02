@@ -18,7 +18,11 @@
 						size="sm"
 						:color="index === selectedLetterIndex ? 'success' : null"
 					/>
-					<h6 class="mb-0 p-3">{{ letter.title }}</h6>
+					<router-link
+						:to="'/mail/' + (index + 1)"
+						class="mb-0 p-3 black router-hover"
+						><strong> {{ letter.title }}</strong>
+					</router-link>
 				</div>
 				<div class="descriptions-right p-2">
 					<!-- 	v-if="this.selectedLetterIndex !== index" иконка закрыть конкретного письма, остальные в цикле не выводятся -->
@@ -28,7 +32,7 @@
 						@click="closeLetter"
 					/>
 					<div v-if="index === selectedLetterIndex">
-						<h4>{{ letter.title }}</h4>
+						<h4>{{ index + 1 }}. {{ letter.title }}</h4>
 						<hr class="width" />
 						<p>
 							{{ letter.descriptions }}
@@ -56,6 +60,7 @@ export default {
 	components: {
 		AppIcon,
 	},
+
 	data() {
 		return {
 			selectedLetterIndex: 0, //переменная, куда ложим выбранный индекс индекс, 0 по дефолту( 1 письмо первое)
@@ -120,6 +125,7 @@ export default {
 		selectLetter(index) {
 			if (this.selectedLetterIndex != index) {
 				this.selectedLetterIndex = index;
+				this.letters.find((letter) => letter.id === this.$route.params.mailId);
 			} else {
 				this.selectedLetterIndex = null;
 			}
@@ -145,5 +151,10 @@ export default {
 .width {
 	margin-left: 12%;
 	margin-right: 12%;
+}
+.router-hover {
+	&:hover {
+		color: black;
+	}
 }
 </style>
