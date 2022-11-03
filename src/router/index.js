@@ -1,10 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import FormView from '../views/FormView.vue'
 import AboutView from '../views/AboutView.vue'
 import ForgetView from '../views/ForgetView.vue'
 import MainView from '../views/MainView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import MailView from '../views/MailView.vue'
+import NotFound from '../common/NotFound.vue'
+// import AppButtons from '../common/AppButtons.vue'
 
 
 
@@ -42,13 +44,17 @@ const routes = [
   {
     path: '/mail/:mailId?',
     name: 'mail',
-    component: MailView
+    component: MailView,
+    // children: [{ path: ':mailId?', component: AppButtons, props: true }]
+  },
+  {
+    path: '/:notFound(.*)', component: NotFound
   },
 ]
 
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes,
   // linkActiveClass: 'active',
   // linkExactActiveClass: 'Exact-active'

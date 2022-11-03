@@ -9,9 +9,18 @@
 			<router-link to="/" class="text-decoration-none"
 				><h6 class="me-3 mb-0 text-dark">Main</h6></router-link
 			>
-			<router-link to="/mail" class="text-decoration-none"
-				><h6 class="me-3 mb-0 text-dark">Mail</h6>
+			<router-link to="/mail" custom v-slot="{ navigate }"
+				><a
+					@click="navigate"
+					class="text-decoration-none"
+					:class="{
+						'router-link-active': $route.path.includes('mail'),
+					}"
+					><h6 class="me-3 mb-0 text-dark">Mail</h6></a
+				>
 			</router-link>
+			<!-- ручное управление состоянием ссылки, урок 10 -->
+			<!-- на router-link класс вещать нельзя, если в нем есть slot -->
 
 			<AppButtons
 				color="warning"

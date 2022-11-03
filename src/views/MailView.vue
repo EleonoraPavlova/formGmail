@@ -11,19 +11,20 @@
 				class="mail-box mb-2"
 				@click="selectLetter(index)"
 			>
-				<div class="form-control text-start d-flex align-items-center">
+				<router-link
+					:to="'/mail/' + (index + 1)"
+					class="form-control text-start d-flex align-items-center"
+				>
 					<AppIcon
 						class="position-absolute top-0 end-0"
 						name="bookmark"
 						size="sm"
 						:color="index === selectedLetterIndex ? 'success' : null"
 					/>
-					<router-link
-						:to="'/mail/' + (index + 1)"
-						class="mb-0 p-3 black router-hover"
-						><strong> {{ letter.title }}</strong>
-					</router-link>
-				</div>
+					<p class="mb-0 p-3 black router-hover">
+						<strong> {{ letter.title }}</strong>
+					</p>
+				</router-link>
 				<div class="descriptions-right p-2">
 					<!-- 	v-if="this.selectedLetterIndex !== index" иконка закрыть конкретного письма, остальные в цикле не выводятся -->
 					<AppIcon
@@ -153,6 +154,15 @@ export default {
 	margin-right: 12%;
 }
 .router-hover {
+	&:hover {
+		color: black;
+	}
+}
+.form-control {
+	&:focus {
+		border-color: #ced4da;
+		box-shadow: none;
+	}
 	&:hover {
 		color: black;
 	}
