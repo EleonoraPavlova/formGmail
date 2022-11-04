@@ -1,8 +1,34 @@
 <template>
 	<nav v-if="!isAuth" class="position-reletive center-margin">
-		<router-link to="/">Main</router-link> |
-		<router-link to="/form">Form</router-link> |
-		<router-link to="/about">About</router-link>
+		<router-link
+			to="/"
+			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
+			>Main</router-link
+		>
+		<router-link
+			to="/form"
+			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
+			>Form</router-link
+		>
+
+		<router-link
+			to="/about"
+			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
+			>About
+			<span
+				class="
+					position-absolute
+					top-0
+					start-100
+					translate-middle
+					badge
+					rounded-pill
+					bg-success
+				"
+				>{{ $store.state.count }}
+				<span class="visually-hidden">unread messages</span>
+			</span></router-link
+		>
 	</nav>
 	<NavBar v-else class="m-3" @logout="logout" />
 	<SentModal v-if="modal" @close="modal = false"
