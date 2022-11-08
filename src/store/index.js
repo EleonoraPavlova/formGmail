@@ -1,17 +1,27 @@
-import { createStore } from 'vuex'
+//https://vuex.vuejs.org/guide/getters.html#method-style-access
+import { createStore, createLogger } from 'vuex'
+import count from "../store/modules/count"
+import mutations from './mutations'
+import action from './action'
+
 
 export default createStore({
+  plugins: [createLogger()],
+  modules: {
+    count
+  },
   state() {
+    //это уже глобальный state
     return {
-      count: 1
+      appTitle: 'Vuex working'
     }
   },
+  mutations: mutations,
+  actions: action,
   getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
+    upprcaseTitle(state) {
+      return state.appTitle.toUpperCase()
+    }
   }
+
 })

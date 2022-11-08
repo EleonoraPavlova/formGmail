@@ -25,9 +25,12 @@
 					rounded-pill
 					bg-success
 				"
-				>{{ $store.state.count }}
+				>{{ count }}
 				<span class="visually-hidden">unread messages</span>
 			</span></router-link
+		>
+		<AppButtons size="sm" @click="addFive" color="outline-info" class="addHover"
+			>Add 5</AppButtons
 		>
 	</nav>
 	<NavBar v-else class="m-3" @logout="logout" />
@@ -41,12 +44,15 @@
 <script>
 import NavBar from "./common/NavBar.vue";
 import SentModal from "./components/SentModal.vue";
+import AppButtons from "./common/AppButtons.vue";
 import { computed } from "vue";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
 	components: {
 		NavBar,
 		SentModal,
+		AppButtons,
 	},
 	data() {
 		const isAuthenticated = localStorage.getItem("authorization");
@@ -56,7 +62,9 @@ export default {
 			isAuth: isAuthenticated, //пользователь без авторизации
 		};
 	},
-
+	computed: {
+		...mapGetters("count", ["count"]),
+	},
 	methods: {
 		login() {
 			//пользователь авторизовался
@@ -76,6 +84,10 @@ export default {
 			this.modal = true;
 			localStorage.removeItem("authorization");
 			//удалить
+		},
+		...mapMutations("count", ["add"]),
+		addFive() {
+			this.add({ value: 5 });
 		},
 	},
 	provide() {
@@ -109,5 +121,8 @@ nav {
 .center-margin {
 	margin-right: 31%;
 	margin-left: 35%;
+}
+.addHover:hover {
+	color: lightblue !important;
 }
 </style>
