@@ -4,6 +4,10 @@ import AboutView from '../views/AboutView.vue'
 import ForgetView from '../views/ForgetView.vue'
 import MainView from '../views/MainView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import CompositionView from "../views/CompositionView.vue"
+import ReusableView from "../views/ReusableView.vue"
+import ApproachView from "../views/ApproachView.vue"
+import VuexView from "../views/VuexView.vue"
 // import MailView from '../views/MailView.vue'
 import NotFound from '../common/NotFound.vue'
 // import AppButtons from '../common/AppButtons.vue'
@@ -53,6 +57,26 @@ const routes = [
     name: 'mail',
     component: MailView,
     // children: [{ path: ':mailId?', component: AppButtons, props: true }]
+  },
+  {
+    path: '/composition',
+    name: 'composition',
+    component: CompositionView,
+  },
+  {
+    path: '/reusable',
+    name: 'reusable',
+    component: ReusableView,
+  },
+  {
+    path: '/approach',
+    name: 'approach',
+    component: ApproachView,
+  },
+  {
+    path: '/vuex',
+    name: 'vuex',
+    component: VuexView,
   },
   {
     path: '/:notFound(.*)', component: NotFound

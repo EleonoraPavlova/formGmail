@@ -1,0 +1,13 @@
+
+export default {
+  state() {
+    return {
+      title: "This is Vuex + Composition"
+    }
+  },
+  getters: {
+    appTitle(state) {
+      return state.title.trim()
+    }
+  }
+}

@@ -10,6 +10,11 @@
 			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
 			>Form</router-link
 		>
+		<router-link
+			to="/composition"
+			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
+			>Composition</router-link
+		>
 
 		<router-link
 			to="/about"
