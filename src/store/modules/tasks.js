@@ -10,8 +10,10 @@ export default {
     addTask(state, task) {
       state.collection.push(task)
       localStorage.setItem('saveTask', JSON.stringify(state.collection))
+    },
+    // toggle(state, index) {
+    //   localStorage.setItem("toggle", index);
 
-
-    }
+    // }
   }
 }
