@@ -1,5 +1,5 @@
 <template>
-	<nav v-if="!isAuth" class="position-reletive center-margin">
+	<nav v-if="!isAuth" class="position-reletive">
 		<router-link
 			to="/"
 			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
@@ -15,7 +15,11 @@
 			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
 			>Composition</router-link
 		>
-
+		<router-link
+			to="/task"
+			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
+			>Task board</router-link
+		>
 		<router-link
 			to="/about"
 			class="p-2 border border-success p-2 border-opacity-10 rounded-pill me-3"
@@ -123,10 +127,7 @@ nav {
 		}
 	}
 }
-.center-margin {
-	margin-right: 31%;
-	margin-left: 35%;
-}
+
 .addHover:hover {
 	color: lightblue !important;
 }

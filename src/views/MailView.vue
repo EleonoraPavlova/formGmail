@@ -61,7 +61,6 @@ export default {
 	components: {
 		AppIcon,
 	},
-
 	data() {
 		return {
 			selectedLetterIndex: 0, //переменная, куда ложим выбранный индекс индекс, 0 по дефолту( 1 письмо первое)

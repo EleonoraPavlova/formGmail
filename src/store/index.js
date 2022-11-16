@@ -4,6 +4,7 @@ import count from "../store/modules/count"
 import mutations from './mutations'
 import action from './action'
 import compositions from './modules/compositions'
+import tasks from './modules/tasks'
 
 
 export default createStore({
@@ -11,6 +12,7 @@ export default createStore({
   modules: {
     count,
     compositions,
+    tasks
   },
   state() {
     //это уже глобальный state

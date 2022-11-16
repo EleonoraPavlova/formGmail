@@ -73,6 +73,11 @@ li {
   font-size: 10px;
 }
 
+.x {
+  width: 15px;
+  height: 15px;
+  font-size: 8px;
+}
 .sm {
   width: 25px;
   height: 25px;
