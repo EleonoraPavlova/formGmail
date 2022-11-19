@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { number } from "yup/lib/locale";
 import AppIcon from "../common/AppIcon.vue";
 import AppButtons from "../common/AppButtons.vue";
 export default {

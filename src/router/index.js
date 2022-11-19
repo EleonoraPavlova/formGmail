@@ -11,6 +11,7 @@ import VuexView from "../views/VuexView.vue"
 import TaskView from "../views/TaskView.vue"
 import CreateView from "../views/CreateView.vue"
 import DoneTaskView from "../views/DoneTaskView.vue"
+import LookTaskView from "../views/LookTaskView.vue"
 // import MailView from '../views/MailView.vue'
 import NotFound from '../common/NotFound.vue'
 // import AppButtons from '../common/AppButtons.vue'
@@ -82,6 +83,11 @@ const routes = [
     component: VuexView,
   },
   {
+    path: '/task/:index',
+    name: 'LookTaskView',
+    component: LookTaskView,
+  },
+  {
     path: '/task',
     name: 'task',
     component: TaskView,
@@ -96,6 +102,7 @@ const routes = [
     name: 'done',
     component: DoneTaskView,
   },
+
   {
     path: '/:notFound(.*)', component: NotFound
   },

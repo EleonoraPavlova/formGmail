@@ -82,7 +82,7 @@ export default {
 			} else {
 				this.isVisible = false;
 			}
-			this.$store.commit("addTask", {
+			this.$store.commit("tasks/addTask", {
 				title: this.title,
 				date: this.date,
 				description: this.description,

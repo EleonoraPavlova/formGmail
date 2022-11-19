@@ -22,43 +22,41 @@
 			</ul>
 		</header>
 		<h4 class="mb-5">
-			Total active: {{ allActive.length }}
-			{{ allActive.length < 2 ? "task" : "tasks" }}
+			Total active: {{ activeTasksCount }}
+			{{ activeTasksCount < 2 ? "task" : "tasks" }}
 		</h4>
 		<div class="d-flex flex-wrap mb-3">
 			<div v-for="(task, index) in tasks" :key="index">
-				<div class="card p-4 m-3">
-					<div class="align-items-center d-flex justify-content-between">
-						<h6 class="mb-0 text-start me-3">{{ task.title }}</h6>
+				<FormTask :task="task" :index="index">
+					<template #toggle>
 						<AppButtons
 							size="x"
 							class="rounded-pill ms-2 btnActive"
-							:color="
-								allActive.includes(index) ? 'outline-danger' : 'outline-success'
-							"
-							@click="toggle(index)"
-							>{{
-								allActive.includes(index) ? "Inactive" : "Active"
-							}}</AppButtons
+							:color="task.active ? 'outline-success' : 'outline-danger'"
+							@click="$store.commit('tasks/toggleActive', index)"
+							>{{ task.active ? "Active" : "Inactive" }}</AppButtons
 						>
-					</div>
-					<hr class="mt-2 mb-3" />
-					<p class="text-start">
-						<strong class="me-3">Deadline:</strong> {{ task.date }}
-					</p>
-
-					<div class="text-start">
+					</template>
+					<div class="">
 						<AppButtons
 							size="sm"
 							color="outline-success"
+							class="me-5"
 							@click="readMore(index)"
 							>{{ expandedItemIndex === index ? "hide" : "Read more" }}
 						</AppButtons>
+						<AppButtons
+							size="sm"
+							color="outline-info"
+							class="addHover"
+							@click="$router.push('/task/' + index)"
+							>Expand
+						</AppButtons>
 					</div>
 					<div v-if="expandedItemIndex === index" class="m-2 text-start">
-						{{ task.description }}
+						{{ task.description[0].toUpperCase() + task.description.slice(1) }}
 					</div>
-				</div>
+				</FormTask>
 			</div>
 		</div>
 	</div>
@@ -67,24 +65,27 @@
 <script>
 import AppIcon from "../common/AppIcon.vue";
 import AppButtons from "../common/AppButtons.vue";
-import { mapState } from "vuex";
+import FormTask from "../common/FormTask.vue";
+import { mapState, mapGetters } from "vuex";
 export default {
 	name: "TaskView",
 	components: {
 		AppIcon,
 		AppButtons,
+		FormTask,
 	},
 	data() {
 		return {
 			expandedItemIndex: null,
 			//переменная, куда буду ложить индекс конкретной открытой task(без этого открываются все)
-			allActive: [], //сюда ложу чекнутые active, и удаляю inactive(если нужно выбрать несколько элементов-всегда нужен массив, если один- null или false)
+			//allActive: [], //сюда ложу чекнутые active, и удаляю inactive(если нужно выбрать несколько элементов-всегда нужен массив, если один- null или false)
 		};
 	},
 	computed: {
 		...mapState({
 			tasks: (arg) => arg.tasks.collection,
 		}),
+		...mapGetters("tasks", ["activeTasksCount"]),
 	},
 	methods: {
 		readMore(index) {
@@ -94,15 +95,15 @@ export default {
 				this.expandedItemIndex = index;
 			}
 		},
-		toggle(index) {
-			//туда-обратно кнопка
-			if (!this.allActive.includes(index)) {
-				this.allActive.push(index);
-			} else {
-				const el = this.allActive.findIndex((item) => item === index);
-				this.allActive.splice(el, 1);
-			}
-		},
+		// toggle(index) {
+		// 	//туда-обратно кнопка
+		// 	if (!this.allActive.includes(index)) {
+		// 		this.allActive.push(index);
+		// 	} else {
+		// 		const el = this.allActive.findIndex((item) => item === index);
+		// 		this.allActive.splice(el, 1);
+		// 	}
+		// },
 	},
 };
 </script>

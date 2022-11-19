@@ -1,0 +1,137 @@
+<template>
+	<div class="container">
+		<div v-if="tasks[$route.params.index]">
+			<!-- условие, чтобы рендерелись таски, если ничего нет - тогда no task(v-else) -->
+			<!-- {{ $route.params.index }} вытянула index с урл -->
+			<h5 class="m-4">The task {{ $route.params.index }}</h5>
+			<div class="d-flex align-items-start">
+				<AppButtons
+					size="sm"
+					color="btn-outline-secondary"
+					class="m-2"
+					@click="$router.push('/task')"
+				>
+					<AppIcon name="keyboard-return" size="mdx" color="success" />
+				</AppButtons>
+				<FormTask
+					:task="tasks[$route.params.index]"
+					:index="$route.params.index"
+					:editable="true"
+					class="m-auto"
+				>
+					<template #label>
+						<p class="mb-0">Status:</p>
+					</template>
+					<template #toggle>
+						<div
+							v-if="tasks[$route.params.index].active"
+							class="btnActive rounded-pill border border-success m-2"
+						>
+							<span class="success">Active</span>
+						</div>
+						<div v-else class="btnActive rounded-pill border border-danger m-2">
+							<span class="dangerous">Inactive</span>
+						</div>
+					</template>
+					<template #editDate>
+						<AppButtons
+							size="sm"
+							color="btn-outline-secondary"
+							@click="$router.push('/task')"
+						>
+							<AppIcon name="pencil" size="sm" color="success" />
+						</AppButtons>
+					</template>
+					<div class="d-flex justify-content-start align-items-center">
+						<p class="mb-0">
+							{{
+								tasks[$route.params.index].description[0].toUpperCase() +
+								tasks[$route.params.index].description.slice(1)
+							}}
+						</p>
+						<AppButtons
+							size="sm"
+							color="btn-outline-secondary"
+							@click="$router.push('/task')"
+						>
+							<AppIcon name="pencil" size="sm" color="success" />
+						</AppButtons>
+					</div>
+					<div class="">
+						<AppButtons
+							size="xs"
+							class="rounded-pill ms-2"
+							color="outline-success"
+							@click="$store.commit('tasks/toggleActive', $route.params.index)"
+							>{{
+								tasks[$route.params.index].active ? "Cancel" : "Take to work"
+							}}</AppButtons
+						>
+						<AppButtons
+							size="xs"
+							class="rounded-pill ms-2"
+							color="danger"
+							@click="deleteTask($route.params.index)"
+							>Delete</AppButtons
+						>
+					</div>
+				</FormTask>
+			</div>
+		</div>
+		<div v-else>
+			<h6 class="dangerous">No task</h6>
+		</div>
+	</div>
+</template>
+
+<script>
+import FormTask from "../common/FormTask.vue";
+import AppButtons from "../common/AppButtons.vue";
+import AppIcon from "../common/AppIcon.vue";
+import { mapState } from "vuex";
+export default {
+	name: "LookTaskView",
+	components: {
+		FormTask,
+		AppButtons,
+		AppIcon,
+	},
+	data() {
+		return {
+			editingTaskId: null, // порядковый номер элемента
+			editingValue: null, //отред значение
+		};
+	},
+	computed: {
+		...mapState({
+			tasks: (arg) => arg.tasks.collection,
+		}),
+	},
+	methods: {
+		deleteTask(index) {
+			this.$router.push("/task");
+			this.$store.commit("tasks/deleteTask", index);
+		},
+		async onSaveItem() {
+			try {
+				// const item = this.allInfo[this.editingItemIndex];
+				await this.$store.dispatch("resumeItems/editItem", {
+					id: this.editingItemId,
+					value: this.editingValue,
+				});
+				this.editingItemId = null;
+				this.editingValue = null;
+				this.$toast.success("Edited successfuly");
+			} catch (e) {
+				this.$toast.warning("Something went wrong");
+			}
+		},
+	},
+};
+</script>
+
+<style scoped>
+.card {
+	width: 45%;
+}
+</style>
