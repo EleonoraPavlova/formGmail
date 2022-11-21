@@ -27,7 +27,7 @@
 		</h4>
 		<div class="d-flex flex-wrap mb-3">
 			<div v-for="(task, index) in tasks" :key="index">
-				<FormTask :task="task" :index="index">
+				<FormTask :task="task" :index="index" :showDescription="false">
 					<template #toggle>
 						<AppButtons
 							size="x"
@@ -74,6 +74,7 @@ export default {
 		AppButtons,
 		FormTask,
 	},
+
 	data() {
 		return {
 			expandedItemIndex: null,

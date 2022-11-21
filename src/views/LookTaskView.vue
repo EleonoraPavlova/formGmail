@@ -17,6 +17,7 @@
 					:task="tasks[$route.params.index]"
 					:index="$route.params.index"
 					:editable="true"
+					:showDescription="true"
 					class="m-auto"
 				>
 					<template #label>
@@ -33,30 +34,6 @@
 							<span class="dangerous">Inactive</span>
 						</div>
 					</template>
-					<template #editDate>
-						<AppButtons
-							size="sm"
-							color="btn-outline-secondary"
-							@click="$router.push('/task')"
-						>
-							<AppIcon name="pencil" size="sm" color="success" />
-						</AppButtons>
-					</template>
-					<div class="d-flex justify-content-start align-items-center">
-						<p class="mb-0">
-							{{
-								tasks[$route.params.index].description[0].toUpperCase() +
-								tasks[$route.params.index].description.slice(1)
-							}}
-						</p>
-						<AppButtons
-							size="sm"
-							color="btn-outline-secondary"
-							@click="$router.push('/task')"
-						>
-							<AppIcon name="pencil" size="sm" color="success" />
-						</AppButtons>
-					</div>
 					<div class="">
 						<AppButtons
 							size="xs"
@@ -88,6 +65,7 @@
 import FormTask from "../common/FormTask.vue";
 import AppButtons from "../common/AppButtons.vue";
 import AppIcon from "../common/AppIcon.vue";
+import EditSaveTask from "../components/EditSaveTask.vue";
 import { mapState } from "vuex";
 export default {
 	name: "LookTaskView",
@@ -95,7 +73,9 @@ export default {
 		FormTask,
 		AppButtons,
 		AppIcon,
+		EditSaveTask,
 	},
+
 	data() {
 		return {
 			editingTaskId: null, // порядковый номер элемента
@@ -107,6 +87,7 @@ export default {
 			tasks: (arg) => arg.tasks.collection,
 		}),
 	},
+
 	methods: {
 		deleteTask(index) {
 			this.$router.push("/task");
@@ -114,12 +95,11 @@ export default {
 		},
 		async onSaveItem() {
 			try {
-				// const item = this.allInfo[this.editingItemIndex];
 				await this.$store.dispatch("resumeItems/editItem", {
-					id: this.editingItemId,
+					id: this.editingTaskId,
 					value: this.editingValue,
 				});
-				this.editingItemId = null;
+				this.editingTaskId = null;
 				this.editingValue = null;
 				this.$toast.success("Edited successfuly");
 			} catch (e) {

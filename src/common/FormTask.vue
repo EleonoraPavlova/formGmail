@@ -1,34 +1,20 @@
 <template>
 	<div class="card p-4 m-3">
 		<div class="align-items-center d-flex justify-content-between">
-			<h6 v-if="!isEditing" class="mb-0 text-start me-3">
-				{{ task.title[0].toUpperCase() + task.title.slice(1) }}
-			</h6>
-			<div v-else>
-				<AppInput v-model="localTask.title"></AppInput>
-			</div>
-			<div v-if="editable">
-				<AppButtons
-					v-if="!isEditing"
-					size="sm"
-					color="btn-outline-secondary"
-					@click="isEditing = true"
-				>
-					<AppIcon name="pencil" size="sm" color="success" />
-				</AppButtons>
-
-				<AppButtons
-					v-else
-					size="sm"
-					color="btn-outline-secondary"
-					@click="onSave"
-				>
-					<AppIcon
-						name="checkbox-marked-circle-outline"
-						size="sm"
-						color="success"
+			<div class="d-flex align-items-center">
+				<h6 v-if="!isEditingTitle" class="mb-0 text-start me-3">
+					{{ task.title[0].toUpperCase() + task.title.slice(1) }}
+				</h6>
+				<div v-else>
+					<AppInput v-model="localTask.title" @keypress.enter="onSave" />
+				</div>
+				<div v-show="editable">
+					<EditSaveTask
+						@onSave="onSave"
+						@click="isEditingTitle = true"
+						:isEditing="isEditingTitle"
 					/>
-				</AppButtons>
+				</div>
 			</div>
 			<div class="d-flex align-items-center">
 				<slot name="label" />
@@ -36,10 +22,40 @@
 			</div>
 		</div>
 		<hr class="mt-1 mb-3" />
-		<p class="text-start">
-			<strong class="me-3">Deadline:</strong> {{ task.date }}
-			<slot name="editDate" />
-		</p>
+		<div class="d-flex align-items-center mb-3">
+			<div v-if="!isEditingDate">
+				<p class="text-start mb-0">
+					<strong class="me-3">Deadline:</strong> {{ task.date }}
+				</p>
+			</div>
+			<div v-else>
+				<AppInput v-model="localTask.date" @keypress.enter="onSave" />
+			</div>
+			<div v-show="editable">
+				<EditSaveTask
+					@onSave="onSave"
+					@click="isEditingDate = true"
+					:isEditing="isEditingDate"
+				/>
+			</div>
+		</div>
+		<div v-if="showDescription" class="d-flex align-items-center mb-3">
+			<div v-if="!isEditingDescrip">
+				<p class="text-start mb-0">
+					<strong class="me-3">Description:</strong> {{ task.description }}
+				</p>
+			</div>
+			<div v-else>
+				<AppInput v-model="localTask.description" @keypress.enter="onSave" />
+			</div>
+			<div v-show="editable">
+				<EditSaveTask
+					@onSave="onSave"
+					@click="isEditingDescrip = true"
+					:isEditing="isEditingDescrip"
+				/>
+			</div>
+		</div>
 		<slot />
 	</div>
 </template>
@@ -48,17 +64,22 @@
 import AppButtons from "../common/AppButtons.vue";
 import AppIcon from "../common/AppIcon.vue";
 import AppInput from "../common/AppInput.vue";
+import EditSaveTask from "../components/EditSaveTask.vue";
 export default {
 	name: "FormTask",
 	components: {
 		AppButtons,
 		AppIcon,
 		AppInput,
+		EditSaveTask,
 	},
+
 	data() {
 		return {
-			isEditing: false,
-			//копия всех task
+			isEditingTitle: false,
+			isEditingDate: false,
+			isEditingDescrip: false,
+			//копия всех task, чтобы изменить значения props(менять объвленный props нельзя, только через копию)
 			localTask: { ...this.task },
 		};
 	},
@@ -72,6 +93,12 @@ export default {
 		},
 		editable: {
 			type: Boolean,
+			// не показывает блоки редактирования на странице TaslView()
+		},
+		showDescription: {
+			type: Boolean,
+
+			//дефолт underfaind
 		},
 	},
 	methods: {
@@ -80,7 +107,9 @@ export default {
 				index: this.$route.params.index,
 				value: this.localTask,
 			});
-			this.isEditing = false;
+			this.isEditingTitle = false;
+			this.isEditingDate = false;
+			this.isEditingDescrip = false;
 		},
 	},
 };
