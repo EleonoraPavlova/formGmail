@@ -65,6 +65,7 @@ import AppButtons from "../common/AppButtons.vue";
 import AppIcon from "../common/AppIcon.vue";
 import AppInput from "../common/AppInput.vue";
 import EditSaveTask from "../components/EditSaveTask.vue";
+
 export default {
 	name: "FormTask",
 	components: {
@@ -97,7 +98,6 @@ export default {
 		},
 		showDescription: {
 			type: Boolean,
-
 			//дефолт underfaind
 		},
 	},
@@ -108,8 +108,20 @@ export default {
 				value: this.localTask,
 			});
 			this.isEditingTitle = false;
-			this.isEditingDate = false;
 			this.isEditingDescrip = false;
+
+			const today = new Date();
+			today.setHours(0);
+			today.setMinutes(0);
+			today.setSeconds(0);
+			today.setMilliseconds(0);
+			if (new Date(this.localTask.date) > today) {
+				this.$toast.success("The data edited successfully");
+			} else {
+				this.$toast.error("Enter a valid date");
+				return;
+			}
+			this.isEditingDate = false;
 		},
 	},
 };

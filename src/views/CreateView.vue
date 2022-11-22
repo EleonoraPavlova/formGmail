@@ -40,7 +40,7 @@
 				@keypress.enter="createFormTask"
 			></textarea>
 		</form>
-		<div class="text-start">
+		<div class="d-flex align-items-start">
 			<AppButtons
 				type="button"
 				size="sm"
@@ -50,6 +50,14 @@
 				@click="createFormTask"
 				>Create</AppButtons
 			>
+			<AppButtons
+				type="button"
+				size="sm"
+				color="outline-danger"
+				class="m-2"
+				@click="$router.push('/task')"
+				>Close</AppButtons
+			>
 		</div>
 	</FormsTemplate>
 </template>
@@ -58,6 +66,7 @@
 import AppInput from "../common/AppInput.vue";
 import FormsTemplate from "../common/FormsTemplate.vue";
 import AppButtons from "../common/AppButtons.vue";
+// import dateCheck from "../use/dateCheck.js";
 export default {
 	name: "CreateView",
 	components: {
@@ -82,12 +91,25 @@ export default {
 			} else {
 				this.isVisible = false;
 			}
+
 			this.$store.commit("tasks/addTask", {
 				title: this.title,
 				date: this.date,
 				description: this.description,
 			});
 
+			const today = new Date();
+			today.setHours(0);
+			today.setMinutes(0);
+			today.setSeconds(0);
+			today.setMilliseconds(0);
+			if (new Date(this.date) >= today) {
+				this.$toast.success("The data edited successfully");
+			} else {
+				this.date = "";
+				this.$toast.error("Enter a valid date");
+				return;
+			}
 			this.$router.push("/task");
 		},
 	},
