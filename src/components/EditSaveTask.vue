@@ -10,6 +10,7 @@
 
 	<AppButtons
 		v-else
+		:disabled="!isValid"
 		size="sm"
 		color="btn-outline-secondary"
 		@click="$emit('onSave')"
@@ -31,6 +32,9 @@ export default {
 		isEditing: {
 			type: Boolean,
 			default: false,
+		},
+		isValid: {
+			type: Boolean,
 		},
 	},
 	emits: ["onSave", "click"],

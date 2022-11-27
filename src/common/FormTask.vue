@@ -3,13 +3,18 @@
 		<div class="align-items-center d-flex justify-content-between">
 			<div class="d-flex align-items-center">
 				<h6 v-if="!isEditingTitle" class="mb-0 text-start me-3">
-					{{ task.title[0].toUpperCase() + task.title.slice(1) }}
+					{{
+						task.title
+							? task.title[0].toUpperCase() + task.title.slice(1)
+							: "No title"
+					}}
 				</h6>
 				<div v-else>
 					<AppInput v-model="localTask.title" @keypress.enter="onSave" />
 				</div>
 				<div v-show="editable">
 					<EditSaveTask
+						:isValid="localTask.title.length > 3"
 						@onSave="onSave"
 						@click="isEditingTitle = true"
 						:isEditing="isEditingTitle"
@@ -74,7 +79,6 @@ export default {
 		AppInput,
 		EditSaveTask,
 	},
-
 	data() {
 		return {
 			isEditingTitle: false,
@@ -98,7 +102,7 @@ export default {
 		},
 		showDescription: {
 			type: Boolean,
-			//дефолт underfaind
+			//дефолт undefined
 		},
 	},
 	methods: {

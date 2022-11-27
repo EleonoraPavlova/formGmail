@@ -25,17 +25,24 @@
 			Total active: {{ activeTasksCount }}
 			{{ activeTasksCount < 2 ? "task" : "tasks" }}
 		</h4>
+		<div v-if="activeTasksCount.length" class="mb-5">
+			<h6 class="success">There are no tasks!</h6>
+		</div>
 		<div class="d-flex flex-wrap mb-3">
 			<div v-for="(task, index) in tasks" :key="index">
 				<FormTask :task="task" :index="index" :showDescription="false">
 					<template #toggle>
 						<AppButtons
+							v-if="!task.done"
 							size="x"
 							class="rounded-pill ms-2 btnActive"
 							:color="task.active ? 'outline-success' : 'outline-danger'"
 							@click="$store.commit('tasks/toggleActive', index)"
 							>{{ task.active ? "Active" : "Inactive" }}</AppButtons
 						>
+						<div v-else class="btnActive rounded-pill border border-info m-2">
+							Done
+						</div>
 					</template>
 					<div class="">
 						<AppButtons
@@ -67,6 +74,7 @@ import AppIcon from "../common/AppIcon.vue";
 import AppButtons from "../common/AppButtons.vue";
 import FormTask from "../common/FormTask.vue";
 import { mapState, mapGetters } from "vuex";
+
 export default {
 	name: "TaskView",
 	components: {
@@ -74,7 +82,6 @@ export default {
 		AppButtons,
 		FormTask,
 	},
-
 	data() {
 		return {
 			expandedItemIndex: null,
@@ -105,6 +112,7 @@ export default {
 		// 		this.allActive.splice(el, 1);
 		// 	}
 		// },
+		//	},
 	},
 };
 </script>

@@ -3,7 +3,7 @@
 		<div v-if="tasks[$route.params.index]">
 			<!-- условие, чтобы рендерелись таски, если ничего нет - тогда no task(v-else) -->
 			<!-- {{ $route.params.index }} вытянула index с урл -->
-			<h5 class="m-4">The task {{ $route.params.index }}</h5>
+			<h5 class="m-4">The task {{ +$route.params.index + 1 }}</h5>
 			<div class="d-flex align-items-start">
 				<AppButtons
 					size="sm"
@@ -51,6 +51,14 @@
 							@click="deleteTask($route.params.index)"
 							>Delete</AppButtons
 						>
+						<AppButtons
+							v-if="tasks[$route.params.index].active"
+							size="xs"
+							class="rounded-pill ms-2"
+							color="outline-info addHover"
+							@click="onDoneTasks"
+							>Done</AppButtons
+						>
 					</div>
 				</FormTask>
 			</div>
@@ -66,7 +74,7 @@ import FormTask from "../common/FormTask.vue";
 import AppButtons from "../common/AppButtons.vue";
 import AppIcon from "../common/AppIcon.vue";
 import EditSaveTask from "../components/EditSaveTask.vue";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
 	name: "LookTaskView",
 	components: {
@@ -86,8 +94,8 @@ export default {
 		...mapState({
 			tasks: (arg) => arg.tasks.collection,
 		}),
+		...mapGetters("tasks", ["doneTasks"]),
 	},
-
 	methods: {
 		deleteTask(index) {
 			this.$router.push("/task");
@@ -105,6 +113,11 @@ export default {
 			} catch (e) {
 				this.$toast.warning("Something went wrong");
 			}
+		},
+		onDoneTasks() {
+			this.$store.commit("tasks/toggleDone", this.$route.params.index);
+			//мутация
+			this.$router.push("/done");
 		},
 	},
 };
