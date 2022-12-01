@@ -83,7 +83,7 @@ const routes = [
     component: VuexView,
   },
   {
-    path: '/task/:index',
+    path: '/task/:id',
     name: 'LookTaskView',
     component: LookTaskView,
   },

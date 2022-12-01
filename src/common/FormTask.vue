@@ -98,7 +98,7 @@ export default {
 		},
 		editable: {
 			type: Boolean,
-			// не показывает блоки редактирования на странице TaslView()
+			// не показывает блоки редактирования на странице TaskView()
 		},
 		showDescription: {
 			type: Boolean,
@@ -107,10 +107,7 @@ export default {
 	},
 	methods: {
 		onSave() {
-			this.$store.commit("tasks/saveTask", {
-				index: this.$route.params.index,
-				value: this.localTask,
-			});
+			this.$store.commit("tasks/saveTask", this.localTask);
 			this.isEditingTitle = false;
 			this.isEditingDescrip = false;
 

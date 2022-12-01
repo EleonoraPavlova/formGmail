@@ -3,7 +3,7 @@
 		<template #header>
 			<h3 class="mb-0 text-start">Create a new task</h3>
 		</template>
-		<form class="mb-2 text-start">
+		<div class="mb-2 text-start">
 			<label for="title" class="mb-0 ms-2"><strong>Title task</strong> </label>
 			<AppInput v-model.trim="title" name="title" id="title" />
 			<div class="div">
@@ -16,8 +16,8 @@
 					</p>
 				</div>
 			</div>
-		</form>
-		<form class="mb-2 text-start">
+		</div>
+		<div class="mb-2 text-start">
 			<label for="date" class="mb-0 ms-2"><strong>Deadline date</strong></label>
 			<AppInput v-model="date" type="date" name="date" id="date" />
 			<div class="div">
@@ -25,8 +25,8 @@
 					<p class="dangerous fw-lighter ms-2">Enter date!</p>
 				</div>
 			</div>
-		</form>
-		<form class="mb-2 text-start d-flex flex-column">
+		</div>
+		<div class="mb-2 text-start d-flex flex-column">
 			<label for="description" class="mb-0 ms-2"
 				><strong>Description</strong></label
 			>
@@ -39,7 +39,7 @@
 				class="textarea"
 				@keypress.enter="createFormTask"
 			></textarea>
-		</form>
+		</div>
 		<div class="d-flex align-items-start">
 			<AppButtons
 				type="button"
@@ -91,25 +91,21 @@ export default {
 			} else {
 				this.isVisible = false;
 			}
-
-			this.$store.commit("tasks/addTask", {
-				title: this.title,
-				date: this.date,
-				description: this.description,
-			});
-
 			const today = new Date();
 			today.setHours(0);
 			today.setMinutes(0);
 			today.setSeconds(0);
 			today.setMilliseconds(0);
-			if (new Date(this.date) >= today) {
-				this.date;
-			} else {
+			if (new Date(this.date) < today) {
 				this.date = "";
 				this.$toast.error("Enter a valid date");
 				return;
 			}
+			this.$store.commit("tasks/addTask", {
+				title: this.title,
+				date: this.date,
+				description: this.description,
+			});
 			this.$router.push("/task");
 		},
 	},

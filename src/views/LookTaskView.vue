@@ -1,9 +1,9 @@
 <template>
 	<div class="container">
-		<div v-if="tasks[$route.params.index]">
+		<div v-if="task">
 			<!-- условие, чтобы рендерелись таски, если ничего нет - тогда no task(v-else) -->
 			<!-- {{ $route.params.index }} вытянула index с урл -->
-			<h5 class="m-4">The task {{ +$route.params.index + 1 }}</h5>
+			<h5 class="m-4">The task id: {{ $route.params.id }}</h5>
 			<div class="d-flex align-items-start">
 				<AppButtons
 					size="sm"
@@ -14,7 +14,7 @@
 					<AppIcon name="keyboard-return" size="mdx" color="success" />
 				</AppButtons>
 				<FormTask
-					:task="tasks[$route.params.index]"
+					:task="task"
 					:index="$route.params.index"
 					:editable="true"
 					:showDescription="true"
@@ -25,7 +25,7 @@
 					</template>
 					<template #toggle>
 						<div
-							v-if="tasks[$route.params.index].active"
+							v-if="task.active"
 							class="btnActive rounded-pill border border-success m-2"
 						>
 							<span class="success">Active</span>
@@ -39,20 +39,18 @@
 							size="xs"
 							class="rounded-pill ms-2"
 							color="outline-success"
-							@click="$store.commit('tasks/toggleActive', $route.params.index)"
-							>{{
-								tasks[$route.params.index].active ? "Cancel" : "Take to work"
-							}}</AppButtons
+							@click="$store.commit('tasks/toggleActive', $route.params.id)"
+							>{{ task.active ? "Cancel" : "Take to work" }}</AppButtons
 						>
 						<AppButtons
 							size="xs"
 							class="rounded-pill ms-2"
 							color="danger"
-							@click="deleteTask($route.params.index)"
+							@click="deleteTask($route.params.id)"
 							>Delete</AppButtons
 						>
 						<AppButtons
-							v-if="tasks[$route.params.index].active"
+							v-if="task.active"
 							size="xs"
 							class="rounded-pill ms-2"
 							color="outline-info addHover"
@@ -91,8 +89,15 @@ export default {
 		};
 	},
 	computed: {
+		task() {
+			const task = this.tasks.find(
+				(task) => task.id === +this.$route.params.id
+			);
+			return task;
+			//вытянули task из store
+		},
 		...mapState({
-			tasks: (arg) => arg.tasks.collection,
+			tasks: (state) => state.tasks.collection,
 		}),
 		...mapGetters("tasks", ["doneTasks"]),
 	},
@@ -115,7 +120,7 @@ export default {
 			}
 		},
 		onDoneTasks() {
-			this.$store.commit("tasks/toggleDone", this.$route.params.index);
+			this.$store.commit("tasks/toggleDone", this.$route.params.id);
 			//мутация
 			this.$router.push("/done");
 		},
