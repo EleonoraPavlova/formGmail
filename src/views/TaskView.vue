@@ -59,11 +59,12 @@
 						<AppButtons
 							size="sm"
 							color="outline-success"
-							class="me-5"
+							:class="{ 'me-5': !task.done }"
 							@click="readMore(index)"
 							>{{ expandedItemIndex === index ? "hide" : "Read more" }}
 						</AppButtons>
 						<AppButtons
+							v-if="!task.done"
 							size="sm"
 							color="outline-info"
 							class="addHover"
